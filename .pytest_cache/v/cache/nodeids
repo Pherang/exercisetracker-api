@@ -1,0 +1,5 @@
+[
+  "test_app.py::TestUserModel::test_compare_user",
+  "test_app.py::TestUserModel::test_create_user",
+  "test_app.py::TestExerciseModel::test_create_exercise"
+]

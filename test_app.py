@@ -53,7 +53,7 @@ class TestExerciseModel(unittest.TestCase):
         db.session.add(exercise1)
         db.session.commit()
         exerciselog = Exercise.query.filter_by(user_id=1).first()
-        self.assertEqual(exercise1, exercise1)
+        self.assertEqual(exercise1, exerciselog)
 
 
 if __name__ == '__main__':
