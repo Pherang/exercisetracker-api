@@ -37,6 +37,8 @@ class Exercise(db.Model):
                }
         return exercise
 
+    def to_log_dict(self, collection):
+        pass
 
     def __repr__(self):
         return '<Exercise {}, {}, {}, {}>'.format(self.description,

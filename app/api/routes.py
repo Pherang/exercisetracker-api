@@ -34,7 +34,8 @@ def add_exercise():
             'duration' not in reqbody or 
             'date' not in reqbody):
         return bad_request("Exercise must include user_id, description, duration, and date fields")
-
+    
+    # parse the date sent by the client
     try:
         datefield = reqbody['date']
         dateparts = datefield.split('-')
@@ -54,11 +55,9 @@ def add_exercise():
 
 @webapp.route('/api/v1/exercises', methods=['GET'])
 def get_exercises():
-    testing = request.args
-    time = str(datetime.utcnow()) + 'Z'
-    exerciselog = { 'placeholder-description': 'Pushups',
-                    'placeholder-duration': 60,
-                    'placeholder-date': time,
-                  }
-    # return json.dumps( exerciselog)
+    userid = request.args.get('userid', None, type=int)
+    if userid is None:
+        return bad_request("userid must be included in request")
+
+    exerciselog = Exercise.query.filter_by(user_id=userid).all()
     return json.dumps(exerciselog, indent=4)
