@@ -1,6 +1,6 @@
 from app import db
 
-class User(db.Model):
+class User(db.Model): 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True, nullable=False)
     exercises = db.relationship('Exercise', backref='user', lazy=True)
@@ -13,7 +13,7 @@ class User(db.Model):
         return user
 
     def __repr__(self):
-       return '<User {}>'.format(self.username) 
+       return 'User {}'.format(self.username) 
 
 class Exercise(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -37,8 +37,14 @@ class Exercise(db.Model):
                }
         return exercise
 
-    def to_log_dict(self, collection):
-        pass
+    @staticmethod
+    def to_log_dict(collection):
+        log = {}
+        i = 1
+        for item in collection:
+            log[i] = str(item)
+            i = i + 1
+        return log
 
     def __repr__(self):
         return '<Exercise {}, {}, {}, {}>'.format(self.description,

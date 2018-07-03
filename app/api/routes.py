@@ -58,6 +58,9 @@ def get_exercises():
     userid = request.args.get('userid', None, type=int)
     if userid is None:
         return bad_request("userid must be included in request")
-
     exerciselog = Exercise.query.filter_by(user_id=userid).all()
-    return json.dumps(exerciselog, indent=4)
+    log = Exercise.to_log_dict(exerciselog)
+    response = jsonify(log)
+    return response
+    #return json.dumps(log, indent=4)
+    #return str(exerciselog)
