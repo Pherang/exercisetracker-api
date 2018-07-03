@@ -6,4 +6,4 @@ webapp = Flask(__name__)
 webapp.config.from_object(Config)
 db = SQLAlchemy(webapp)
 
-from app import routes
+from app.api import routes
