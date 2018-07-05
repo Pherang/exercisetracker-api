@@ -12,7 +12,7 @@ from app import webapp, db
 def index():
     return render_template('base.html')
 
-@webapp.route('/api/v1/users', methods=['POST'])
+@webapp.route('/api/v1/users', methods=['POST']) 
 def create_user():
     reqbody = request.get_json() or {}
     if 'username' not in reqbody:
@@ -59,15 +59,30 @@ def add_exercise():
 @webapp.route('/api/v1/exercises', methods=['GET'])
 def get_exercises():
     user_id = request.args.get('user_id', None, type=int)
-    if userid is None:
-        return bad_request("userid must be included in request")
-    fromdate = request.args.get('from', None)
-    todate = request.args.get('to', None)
-    limit = request.args.get('limit', None)
+    if user_id is None:
+        return bad_request("user_id must be included in request")
+    
+    fd = request.args.get('from', "1970-01-01")
+    td = request.args.get('to', "3000-01-01")
+   
+    try:
+        parser.parse(fd)
+    except:
+        return bad_request("Date field not formatted correctly")
+    fromdate = parser.parse(fd)
+    
+    try:
+        parser.parse(td)
+    except:
+        return bad_request("Date field not formatted correctly")
+    todate = parser.parse(td)
 
-    exerciselog = Exercise.query.filter_by(userid=user_id).all()
+    lim = request.args.get('limit', 1, type=int)
+
+    exerciselog = Exercise.query.filter(Exercise.user_id==user_id,
+                                        Exercise.date >= fromdate,
+                                        Exercise.date <= todate).\
+                                        order_by(Exercise.date.desc()).limit(lim).all()
     log = Exercise.to_log_dict(exerciselog)
     response = jsonify(log)
     return response
-    #return json.dumps(log, indent=4)
-    #return str(exerciselog)
