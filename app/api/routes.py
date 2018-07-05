@@ -1,5 +1,6 @@
 import json
 from datetime import date, datetime
+from dateutil import parser
 from flask import Flask, render_template, request, jsonify
 from app.models import User, Exercise
 from app.api.errors import bad_request
@@ -37,9 +38,11 @@ def add_exercise():
     
     # parse the date sent by the client
     try:
-        datefield = reqbody['date']
-        dateparts = datefield.split('-')
-        d = date(int(dateparts[0]),int(dateparts[1]),int(dateparts[2]))
+        #datefield = reqbody['date']
+        d = parser.parse(reqbody['date'])
+        #dateparts = datefield.split('-')
+        #d = date(int(dateparts[0]),int(dateparts[1]),int(dateparts[2]))
+        
     except:
         return bad_request("Date field not formatted correctly")
     reqbody['date'] = d
@@ -55,10 +58,14 @@ def add_exercise():
 
 @webapp.route('/api/v1/exercises', methods=['GET'])
 def get_exercises():
-    userid = request.args.get('userid', None, type=int)
+    user_id = request.args.get('user_id', None, type=int)
     if userid is None:
         return bad_request("userid must be included in request")
-    exerciselog = Exercise.query.filter_by(user_id=userid).all()
+    fromdate = request.args.get('from', None)
+    todate = request.args.get('to', None)
+    limit = request.args.get('limit', None)
+
+    exerciselog = Exercise.query.filter_by(userid=user_id).all()
     log = Exercise.to_log_dict(exerciselog)
     response = jsonify(log)
     return response
