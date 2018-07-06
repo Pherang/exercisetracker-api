@@ -1,0 +1,19 @@
+/*  #263238 bluegrey 900 */
+.div__left-margin {
+  margin-left: 20px;
+}
+
+.codeblock {
+  background-color: #263238;
+  color: lightgreen;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  margin-right: 10px;
+  display: inline-block;
+  border-radius: 3px;
+}
+
+.codeblock--preformat {
+  white-space: pre;
+}

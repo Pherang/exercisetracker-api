@@ -15,8 +15,7 @@ def index():
 @webapp.route('/api/v1/users', methods=['POST']) 
 def create_user():
     reqbody = request.get_json() or {}
-    if 'username' not in reqbody:
-        return bad_request("Username required")
+    if 'username' not in reqbody: return bad_request("Username required")
     if User.query.filter_by(username=reqbody['username']).first():
         return bad_request("Username already exists")
     user = User(username=reqbody['username'])
@@ -51,7 +50,7 @@ def add_exercise():
     exercise.from_dict(reqbody)
     db.session.add(exercise)
     db.session.commit()
-    result = Exercise.query.filter_by(user_id=exercise.user_id).first()
+    result = Exercise.query.filter_by(user_id=exercise.user_id).all()
     response = jsonify(result.to_dict())
     response.status_code = 201
     return response
@@ -77,7 +76,7 @@ def get_exercises():
         return bad_request("Date field not formatted correctly")
     todate = parser.parse(td)
 
-    lim = request.args.get('limit', 1, type=int)
+    lim = request.args.get('limit', 10 , type=int)
 
     exerciselog = Exercise.query.filter(Exercise.user_id==user_id,
                                         Exercise.date >= fromdate,

@@ -1,39 +1,58 @@
 {% extends 'bootstrap/base.html' %}
 
-{% block content %}
-<h2>Welcome to the Exercise Tracker API</h2>
+{% block styles %}
+{{ super() }}
+  <link rel="stylesheet" type="text/css" href="{{ url_for('.static', filename='base.css')}}">
+{% endblock %}
 
+{% block content %}
+
+<div class="div__left-margin">
+  <h2>Welcome to the Exercise Tracker API</h2>
+</div>
+<div class="fluid-container div__left-margin">
 <p> This API only has two resource-based URLs. </p>
 
 <ul>
   <li> /api/v1/users </li>
   <li> /api/v1/exercises </li>
 </ul>
+<br>
 
 <p>
 To create a new user send a POST request to the users endpoint.
 The request must have a JSON body containing the username parameter.
 </p>
-<div>
+<div class="codeblock">
   curl -d '{"username": "homer"}' -H "Content-Type: application/json" https://exercisetracker-api.herokuapp.com/api/v1/users
 </div>
 
 <p> If the request is successful a response with a JSON body containing the id and username is returned. Once a username has been created exercises can be added for that user.
 </p>
-   {
+
+<div class="codeblock">
+{
   "id": 11, 
     "username": "homer"
-   }
-
+}
+</div>
+<br>
+<br>
 <p>
- Exercises can be added via a POST request to the exercises endpoint. The request JSON body must contain user_id, description, duration, and date. The date must be in ISO 8061 format yyyy-mm-dd
+  Exercises can be added via a POST request to the exercises endpoint. The request JSON body must contain user_id, description, duration, and date. The date must be in <kbd>ISO 8061 format yyyy-mm-dd</kbd>
 </p>
+
+<div class="codeblock">
+curl -d '{"user_id": 2, "description": "Sprinting", "duration": 15, "date": "2018-01-01"}' -H "Content-Type: application/json" https://exercisetracker-api.herokuapp.com/api/v1/exercises
+</div>
+
 
 <p>
  A log of exercises can be obtained by sending a GET request to the exercises endpoint. The request must include a user_id.
-
- <div> curl https://exercisetracker-api.herokuapp.com/api/v1/exercises?user_id=1 </div>
-
 </p>
+
+<div class="codeblock">
+curl "https://exercisetracker-api.herokuapp.com/api/v1/exercises?user_id=1&from=2018-07-01&to=2018-07-07"
+</div>
 
 {% endblock %}
