@@ -10,3 +10,5 @@ class Config(object):
             'sqlite:///' + os.path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     FLASK_ENV = os.environ.get('FLASK_ENV') or 'production'
+
+    LOG_TO_STDOUT = os.environ.get('LOG_TO_STDOUT')
