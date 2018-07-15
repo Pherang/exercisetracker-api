@@ -10,4 +10,4 @@ This is an API that can be used to store users, add exercise logs for that user,
 
 A live demo of the API can found at https://exercisetracker-api.herokuapp.com
 
-
+You may have to try a couple times the first time you access the link as the app could be asleep.

@@ -1,6 +1,11 @@
 /*  #263238 bluegrey 900 */
-.div__left-margin {
-  margin-left: 20px;
+
+.content {
+  min-width: 400px;
+  margin: 0 auto;
+  overflow-wrap: break-word;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .codeblock {
@@ -16,4 +21,11 @@
 
 .codeblock--preformat {
   white-space: pre;
+}
+
+@media screen and (min-width: 900px){
+  .content {
+    width: 900px;
+  }
+
 }
